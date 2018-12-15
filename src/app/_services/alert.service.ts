@@ -1,10 +1,15 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Alert } from '../_models/alert';
+import deserializer, { deepDeserializeSig } from 'angular-http-deserializer';
 
 @Injectable()
 export class AlertService {
-    private subject = new Subject<any>();
+    alertDeserializer: deepDeserializeSig<Alert> = deserializer<Alert>(Alert);
+    
+    private subject = new Subject<Alert>();
     private keepAfterNavigationChange = false;
 
     constructor(private router: Router) {
@@ -24,15 +29,21 @@ export class AlertService {
 
     success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
-        this.subject.next({ type: 'success', text: message });
+        this.subject.next({
+            type: 'success',
+            text: message
+        });
     }
 
     error(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
-        this.subject.next({ type: 'error', text: message });
+        this.subject.next({
+            type: 'error',
+            text: message
+        });
     }
 
-    getMessage(): Observable<any> {
-        return this.subject.asObservable();
+    getMessage(): Observable<Alert> {
+        return this.subject.asObservable().pipe(map(this.alertDeserializer));
     }
 }
