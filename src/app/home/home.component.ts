@@ -3,11 +3,12 @@ import { first } from 'rxjs/operators';
 
 import { User } from '../_models';
 import { UserService } from '../_services';
-import deserializer, { deepDeserializeSig } from 'angular-http-deserializer';
+import deserializer from 'angular-http-deserializer';
+import { deserializeSig } from 'angular-http-deserializer/types';
 
 @Component({templateUrl: 'home.component.html'})
 export class HomeComponent implements OnInit {
-    userDeserializer: deepDeserializeSig<User> = deserializer<User>(User);
+    userDeserializer: deserializeSig<User> = deserializer<User>(User);
     currentUser: User;
     users: User[] = [];
 

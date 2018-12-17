@@ -3,11 +3,12 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Alert } from '../_models/alert';
-import deserializer, { deepDeserializeSig } from 'angular-http-deserializer';
+import deserializer from 'angular-http-deserializer';
+import { deserializeSig } from 'angular-http-deserializer/types';
 
 @Injectable()
 export class AlertService {
-    alertDeserializer: deepDeserializeSig<Alert> = deserializer<Alert>(Alert);
+    alertDeserializer: deserializeSig<Alert> = deserializer<Alert>(Alert);
     
     private subject = new Subject<Alert>();
     private keepAfterNavigationChange = false;

@@ -5,12 +5,13 @@ import { User } from '../_models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import deserializer, { deepDeserializeSig } from 'angular-http-deserializer';
+import deserializer from 'angular-http-deserializer';
+import { deserializeSig } from 'angular-http-deserializer/types';
 
 @Injectable()
 export class UserService {
-    userArrayDeserializer: deepDeserializeSig<User[]> = deserializer<User[]>(User);
-    userDeserializer: deepDeserializeSig<User> = deserializer<User>(User);
+    userArrayDeserializer: deserializeSig<User[]> = deserializer<User[]>(User);
+    userDeserializer: deserializeSig<User> = deserializer<User>(User);
     
     constructor(private http: HttpClient) { }
 
